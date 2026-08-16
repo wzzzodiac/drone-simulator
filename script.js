@@ -14,13 +14,15 @@ host.appendChild(renderer.domElement);
 const scene=new THREE.Scene();
 scene.fog=new THREE.FogExp2(0x020607,0.018);
 const camera=new THREE.PerspectiveCamera(64,16/10,0.1,300);
-camera.position.set(0,2.6,10.5);
+camera.position.set(0,2.4,8.5);
 scene.add(new THREE.HemisphereLight(0x7ee8ff,0x06100d,1.5));
 const keyLight=new THREE.DirectionalLight(0x69f0c1,2.2); keyLight.position.set(4,8,6); scene.add(keyLight);
 const rimLight=new THREE.PointLight(0x5fd1ff,25,30,2); rimLight.position.set(-5,2,4); scene.add(rimLight);
 
+// The course moves toward the camera, but the drone stays in scene space.
+// Keeping the drone outside `world` is what makes the view genuinely third-person.
 const world=new THREE.Group(); scene.add(world);
-const drone=new THREE.Group(); world.add(drone);
+const drone=new THREE.Group(); scene.add(drone);
 const darkMat=new THREE.MeshStandardMaterial({color:0x0b2020,metalness:.75,roughness:.3});
 const glowMat=new THREE.MeshStandardMaterial({color:0x5fd1ff,emissive:0x14516a,emissiveIntensity:2.2,metalness:.45,roughness:.25});
 drone.add(new THREE.Mesh(new THREE.BoxGeometry(1.1,.3,.9),darkMat));
@@ -69,7 +71,7 @@ function showOverlay(title,text,button='RETRY COURSE'){overlayTitle.textContent=
 function hideOverlay(){overlay.classList.remove('visible');}
 function resetCourse(customStatus){
   state.running=false;state.paused=false;state.finished=false;state.ringIndex=0;state.strikesLeft=cfg().strikes;state.elapsed=0;state.distance=0;state.targetX=0;state.targetY=0;
-  drone.position.set(0,0,0);drone.rotation.set(0,0,0);world.position.z=0;camera.position.set(0,2.6,10.5);
+  drone.position.set(0,0,0);drone.rotation.set(0,0,0);world.position.z=0;camera.position.set(0,2.4,8.5);camera.lookAt(0,0,-5.5);
   ringMeshes.forEach(r=>{r.userData.checked=false;r.rotation.z=0;});
   loadBest();setRingVisuals();updateModeUI();updateHud('STANDBY');pauseButton.disabled=true;pauseButton.textContent='PAUSE';startButton.textContent='START COURSE';
   setStatus(customStatus||(state.mode==='training'?'Training course ready. Three strikes before certification becomes embarrassing.':'Time Attack armed. One mistake and the paperwork begins.'));
@@ -81,7 +83,7 @@ function setMode(mode){
   resetCourse(interrupted?`${cfg().name} loaded. Previous course aborted.`:`${cfg().name} profile loaded.`);
 }
 function startCourse(){if(state.finished)resetCourse();if(state.running&&!state.paused)return;state.running=true;state.paused=false;state.lastTime=performance.now();pauseButton.disabled=false;pauseButton.textContent='PAUSE';startButton.textContent='FLIGHT ACTIVE';hideOverlay();setStatus('Course active. Follow the glowing gate and avoid becoming a very small insurance claim.');updateHud('ACTIVE');requestAnimationFrame(loop);}
-function togglePause(){if(!state.running||state.finished)return;state.paused=!state.paused;pauseButton.textContent=state.paused?'RESUME':'PAUSE';if(state.paused){updateHud('PAUSED');setStatus('Simulation paused. The drone has discovered union rules.');showOverlay('SIMULATION PAUSED','The rings will remain judgmental until you resume.','RESUME');}else{hideOverlay();state.lastTime=performance.now();requestAnimationFrame(loop);}}
+function togglePause(){if(!state.running||state.finished)return;state.paused=!state.paused;pauseButton.textContent=state.paused?'RESUME':'PAUSE';if(state.paused){updateHud('PAUSED');setStatus('Simulation paused. The drone has discovered union rules.');showOverlay('SIMULATION PAUSED','The flight window is paused. Telemetry and the rest of the lab remain visible.','RESUME');}else{hideOverlay();state.lastTime=performance.now();requestAnimationFrame(loop);}}
 function finish(success){
   state.running=false;state.finished=true;pauseButton.disabled=true;
   if(success){if(!state.best||state.elapsed<state.best){state.best=state.elapsed;localStorage.setItem(bestKey(),String(state.best));}updateHud('COURSE CLEAR');setStatus(`COURSE CLEAR // ${state.elapsed.toFixed(2)} s. Drone remains mostly reusable.`);showOverlay('COURSE COMPLETE',`${course.length} checkpoints processed in ${state.elapsed.toFixed(2)} seconds.`,'RETRY COURSE');}
@@ -101,7 +103,13 @@ function update(dt){
     else if(radial<=3*cfg().ringScale){if(registerStrike('RING FRAME IMPACT'))advanceRing();}
     else{if(registerStrike('CHECKPOINT MISSED'))advanceRing();}
   }}
-  camera.position.x+=((drone.position.x*.22)-camera.position.x)*(1-Math.pow(.02,dt));camera.position.y+=((2.6+drone.position.y*.18)-camera.position.y)*(1-Math.pow(.02,dt));camera.lookAt(drone.position.x*.12,drone.position.y*.13,-7);updateHud('ACTIVE');
+  // Chase camera: it follows a fraction of the drone movement so the drone remains
+  // clearly visible while still giving a useful view of the next checkpoint.
+  camera.position.x+=((drone.position.x*.28)-camera.position.x)*(1-Math.pow(.025,dt));
+  camera.position.y+=((2.4+drone.position.y*.20)-camera.position.y)*(1-Math.pow(.025,dt));
+  camera.position.z=8.5;
+  camera.lookAt(drone.position.x*.16,drone.position.y*.12,-5.5);
+  updateHud('ACTIVE');
 }
 function loop(now){if(!state.running||state.paused||state.finished)return;const dt=Math.min(.033,(now-state.lastTime)/1000||0);state.lastTime=now;update(dt);renderer.render(scene,camera);if(state.running&&!state.paused&&!state.finished)requestAnimationFrame(loop);}
 function pointerToTarget(e){const rect=host.getBoundingClientRect();const nx=((e.clientX-rect.left)/rect.width)*2-1,ny=-(((e.clientY-rect.top)/rect.height)*2-1);state.targetX=nx*5.8;state.targetY=ny*3.8;}
