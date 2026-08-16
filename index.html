@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#050908">
+  <meta name="description" content="3D drone ring course built with Three.js. Fly through checkpoints using mouse or touch controls.">
+  <title>Drone Simulator // Ring Course Lab</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛸</text></svg>">
+  <link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">FLIGHT LAB // 3D DRONE TRAINING COURSE // V1.0</p>
+        <h1>Drone Simulator</h1>
+        <p class="subtitle">Guide a small drone through a 3D ring course. Mouse on desktop, finger on mobile. No weapons, no excuses, only increasingly questionable piloting.</p>
+      </div>
+      <a class="github-link" href="https://github.com/wzzzodiac/drone-simulator" target="_blank" rel="noreferrer">github ↗</a>
+    </header>
+
+    <section class="mode-panel">
+      <div>
+        <p class="panel-label">FLIGHT PROFILE</p>
+        <p id="modeDescription">TRAINING // generous rings, three strikes, stable speed.</p>
+      </div>
+      <div class="mode-switch">
+        <button id="trainingMode" class="mode-button active" type="button">TRAINING</button>
+        <button id="timeAttackMode" class="mode-button" type="button">TIME ATTACK</button>
+      </div>
+    </section>
+
+    <section class="hud-strip">
+      <div class="hud-item"><span>RINGS</span><strong id="ringsReadout">0 / 12</strong></div>
+      <div class="hud-item"><span>STRIKES</span><strong id="strikesReadout">○ ○ ○</strong></div>
+      <div class="hud-item"><span>TIME</span><strong id="timeReadout">0.00 s</strong></div>
+      <div class="hud-item"><span>BEST</span><strong id="bestReadout">—</strong></div>
+      <div class="hud-item"><span>STATUS</span><strong id="statusReadout">STANDBY</strong></div>
+    </section>
+
+    <section class="game-layout">
+      <div class="game-card">
+        <div class="game-head">
+          <span>SIMULATION WINDOW // THREE.JS</span>
+          <span id="speedReadout">VELOCITY: 1.00×</span>
+        </div>
+        <div id="sceneHost" class="scene-host" aria-label="3D drone ring course"></div>
+        <div class="control-bar">
+          <button id="startButton" class="primary" type="button">START COURSE</button>
+          <button id="pauseButton" type="button" disabled>PAUSE</button>
+          <button id="resetButton" type="button">RESET</button>
+        </div>
+        <p class="game-help"><strong>Desktop:</strong> move the mouse inside the flight window. <strong>Mobile:</strong> press and drag. The drone follows your pointer while the course moves toward you. Pass through the glowing rings; hitting a ring frame costs a strike.</p>
+      </div>
+
+      <aside class="info-card">
+        <p class="panel-label">COURSE TELEMETRY</p>
+        <div class="parameter-grid">
+          <div><span>COURSE</span><strong>12 rings</strong></div>
+          <div><span>TRAINING</span><strong>3 strikes</strong></div>
+          <div><span>TIME ATTACK</span><strong>1 strike</strong></div>
+          <div><span>CONTROL</span><strong>mouse / touch</strong></div>
+        </div>
+
+        <div class="status-box" id="statusBox">Flight computer ready. The hangar has signed no liability waiver.</div>
+
+        <div class="legend">
+          <span><i class="swatch drone"></i> drone</span>
+          <span><i class="swatch next-ring"></i> active checkpoint</span>
+          <span><i class="swatch ring"></i> future ring</span>
+          <span><i class="swatch hazard"></i> missed / impact</span>
+        </div>
+
+        <div class="notes-block">
+          <p class="panel-label">SYSTEM NOTE</p>
+          <p>The camera follows behind the drone while the course advances toward it. Rings are placed at different X/Y offsets to force actual 3D steering instead of pretending the Z axis does not exist.</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      <span>3D RING COURSE // POINTER FLIGHT CONTROL // QUESTIONABLE CERTIFICATION</span>
+      <span>v1.0</span>
+    </footer>
+  </main>
+
+  <div id="overlay" class="overlay visible">
+    <div class="overlay-card">
+      <p class="panel-label">DRONE TRAINING SYSTEM</p>
+      <h2 id="overlayTitle">COURSE STANDBY</h2>
+      <p id="overlayText">Pass through 12 rings without redecorating the hangar with drone parts.</p>
+      <button id="overlayButton" class="primary" type="button">START COURSE</button>
+    </div>
+  </div>
+
+  <script type="module" src="script.js?v=1.0.0"></script>
+</body>
+</html>
