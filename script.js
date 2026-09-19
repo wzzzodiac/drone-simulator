@@ -1,4 +1,4 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js';
+import * as THREE from './vendor/three.module.js';
 
 const $=id=>document.getElementById(id);
 const host=$('sceneHost'),ringsReadout=$('ringsReadout'),strikesReadout=$('strikesReadout'),timeReadout=$('timeReadout'),bestReadout=$('bestReadout'),statusReadout=$('statusReadout'),speedReadout=$('speedReadout'),statusBox=$('statusBox');
