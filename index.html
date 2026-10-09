@@ -2,101 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#050908">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11191e">
   <meta name="description" content="3D drone ring course built with Three.js. Fly through checkpoints using mouse or touch controls.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
   <title>Drone Simulator // Ring Course Lab</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛸</text></svg>">
-  <link rel="stylesheet" href="style.css?v=1.1.1">
+  <link rel="stylesheet" href="style.css?v=hangar-1">
 </head>
 <body>
   <main class="shell">
-    <header class="hero">
-      <div>
-        <p class="eyebrow">FLIGHT LAB // 3D DRONE TRAINING COURSE // V1.1.1</p>
-        <h1>Drone Simulator</h1>
-        <p class="subtitle">Guide a small drone through a 3D ring course. Mouse on desktop, finger on mobile. No weapons, no excuses, only increasingly questionable piloting.</p>
-      </div>
-      <a class="github-link" href="https://github.com/wzzzodiac/drone-simulator" target="_blank" rel="noreferrer">github ↗</a>
-    </header>
-
-    <section class="mode-panel">
-      <div>
-        <p class="panel-label">FLIGHT PROFILE</p>
-        <p id="modeDescription">TRAINING // generous rings, three strikes, responsive controls.</p>
-      </div>
-      <div class="mode-switch">
-        <button id="trainingMode" class="mode-button active" type="button">TRAINING</button>
-        <button id="timeAttackMode" class="mode-button" type="button">TIME ATTACK</button>
-        <button id="endlessMode" class="mode-button" type="button">ENDLESS</button>
-      </div>
-    </section>
-
-    <section class="hud-strip">
-      <div class="hud-item"><span>RINGS</span><strong id="ringsReadout">0 / 12</strong></div>
-      <div class="hud-item"><span>STRIKES</span><strong id="strikesReadout">○ ○ ○</strong></div>
-      <div class="hud-item"><span>TIME</span><strong id="timeReadout">0.00 s</strong></div>
-      <div class="hud-item"><span>BEST</span><strong id="bestReadout">—</strong></div>
-      <div class="hud-item"><span>STATUS</span><strong id="statusReadout">STANDBY</strong></div>
-    </section>
-
-    <section class="game-layout">
-      <div class="game-card">
-        <div class="game-head">
-          <span>SIMULATION WINDOW // THREE.JS</span>
-          <span id="speedReadout">VELOCITY: 1.00×</span>
+    <header class="topbar"><a href="https://wzzzodiac.github.io/" class="brand">W.ZC <span>/ FLIGHT LAB</span></a><h1>Drone Simulator <small>02</small></h1><a href="https://github.com/wzzzodiac/drone-simulator" target="_blank" rel="noreferrer">Source ↗</a></header>
+    <div class="layout">
+      <section class="flight-panel" aria-label="Flight deck">
+        <div class="hud-strip">
+          <div><span>CHECKPOINTS</span><strong id="ringsReadout">0 / 12</strong></div>
+          <div><span>AIRFRAME</span><strong id="strikesReadout">○ ○ ○</strong></div>
+          <div><span>FLIGHT TIME</span><strong id="timeReadout">0.00 s</strong></div>
+          <div><span>PERSONAL BEST</span><strong id="bestReadout">—</strong></div>
         </div>
-        <div id="sceneHost" class="scene-host" aria-label="3D drone ring course">
-          <div id="overlay" class="overlay visible">
-            <div class="overlay-card">
-              <p class="panel-label">DRONE TRAINING SYSTEM</p>
-              <h2 id="overlayTitle">COURSE STANDBY</h2>
-              <p id="overlayText">Pass through 12 rings without redecorating the hangar with drone parts.</p>
-              <button id="overlayButton" class="primary" type="button">START COURSE</button>
+        <div class="game-card">
+          <div class="game-head"><span id="statusReadout">STANDBY</span><span id="speedReadout">VELOCITY: 1.00×</span></div>
+          <div id="sceneHost" class="scene-host" aria-label="3D drone ring course">
+            <div class="scene-caption" aria-hidden="true">HANGAR 07 <span>INDOOR FLIGHT RANGE</span></div>
+            <div id="overlay" class="overlay visible">
+              <div class="overlay-card">
+                <p class="panel-label">FLIGHT SYSTEM / READY</p>
+                <h2 id="overlayTitle">COURSE STANDBY</h2>
+                <p id="overlayText">Pass through 12 rings. You have three strikes.</p>
+                <button id="overlayButton" class="primary" type="button">START COURSE</button>
+              </div>
             </div>
           </div>
+          <div class="control-bar"><button id="startButton" class="primary" type="button">START COURSE</button><button id="pauseButton" type="button" disabled>PAUSE</button><button id="resetButton" type="button">RESET</button></div>
         </div>
-        <div class="control-bar">
-          <button id="startButton" class="primary" type="button">START COURSE</button>
-          <button id="pauseButton" type="button" disabled>PAUSE</button>
-          <button id="resetButton" type="button">RESET</button>
-          <button id="audioButton" type="button" aria-pressed="true">AMBIENT: ON</button>
-        </div>
-        <p class="game-help"><strong>Desktop:</strong> move the mouse inside the flight window. <strong>Mobile:</strong> press and drag. The drone follows your pointer while the course moves toward you. Endless keeps generating gates and accelerating until one mistake ends the run.</p>
-      </div>
-
-      <aside class="info-card">
-        <p class="panel-label">COURSE TELEMETRY</p>
-        <div class="parameter-grid">
-          <div><span>TRAINING</span><strong>12 / 3 strikes</strong></div>
-          <div><span>TIME ATTACK</span><strong>12 / 1 strike</strong></div>
-          <div><span>ENDLESS</span><strong>∞ / 1 strike</strong></div>
-          <div><span>CONTROL</span><strong>mouse / touch</strong></div>
-        </div>
-
-        <div class="status-box" id="statusBox">Flight computer ready. The hangar has signed no liability waiver.</div>
-
-        <div class="legend">
-          <span><i class="swatch drone"></i> drone</span>
-          <span><i class="swatch next-ring"></i> active checkpoint</span>
-          <span><i class="swatch ring"></i> future ring</span>
-          <span><i class="swatch hazard"></i> missed / impact</span>
-        </div>
-
-        <div class="notes-block">
-          <p class="panel-label">SYSTEM NOTE</p>
-          <p>Third-person chase camera, faster steering and procedural Endless gates. Endless difficulty comes mainly from rising forward speed and wider X/Y transitions, not from filling the tunnel with random clutter.</p>
-        </div>
+        <p class="game-help">Mouse to steer <span>·</span> Touch and drag <span>·</span> Aim through the amber gate</p>
+      </section>
+      <aside class="console" aria-label="Flight configuration">
+        <div class="console-title"><span>FLIGHT PROFILE</span><span>01—03</span></div>
+        <div class="mode-switch"><button id="trainingMode" class="mode-button active" type="button" aria-pressed="true"><small>01</small><span>Training<em>12 gates / 3 strikes</em></span><b>↗</b></button><button id="timeAttackMode" class="mode-button" type="button" aria-pressed="false"><small>02</small><span>Time Attack<em>12 gates / 1 strike</em></span><b>↗</b></button><button id="endlessMode" class="mode-button" type="button" aria-pressed="false"><small>03</small><span>Endless<em>Infinite gates / 1 strike</em></span><b>↗</b></button></div>
+        <p id="modeDescription">TRAINING // generous rings, three strikes, responsive controls.</p>
+        <div class="flight-status"><p class="panel-label">FLIGHT COMPUTER</p><p id="statusBox" role="status">Flight computer ready.</p></div>
+        <button id="audioButton" type="button" aria-pressed="true">AMBIENT: ON</button>
+        <label class="quality-control" for="qualitySelect">RENDER QUALITY<select id="qualitySelect"><option value="auto">Auto</option><option value="high">High</option><option value="low">Low</option></select></label>
+        <details><summary>Pilot briefing <span>+</span></summary><p>Guide the drone through the amber gate. Touch the frame or miss a checkpoint and you lose a strike.</p><p>Training allows three strikes. Time Attack uses smaller gates. Endless keeps accelerating until your first mistake.</p><p>Move the mouse within the flight window, or press and drag on touchscreens. Pause freezes the course; reset returns to the start.</p></details>
+        <div class="legend"><span><i></i> NEXT CHECKPOINT</span><span><i></i> UPCOMING GATES</span></div>
+        <p class="signature">W.ZC — EXPERIMENTAL SYSTEMS<br>SMALL DRONE. QUESTIONABLE CERTIFICATION.</p>
       </aside>
-    </section>
-
-    <footer>
-      <span>3D RING COURSE // POINTER FLIGHT CONTROL // QUESTIONABLE CERTIFICATION</span>
-      <span>v1.1.1</span>
-    </footer>
+    </div>
   </main>
-
-  <script type="module" src="script.js?v=1.1.1"></script>
+  <script type="module" src="boot.js?v=hangar-1"></script>
 </body>
 </html>
