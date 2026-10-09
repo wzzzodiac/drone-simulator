@@ -44,7 +44,7 @@ Procedural gates continue spawning ahead of the drone. Forward speed rises over 
 - HTML
 - CSS
 - JavaScript modules
-- Three.js loaded from jsDelivr
+- Three.js 0.180.0 vendored locally (no runtime CDN)
 - Web Audio API
 - `localStorage` for local records
 - No backend
@@ -54,3 +54,9 @@ Procedural gates continue spawning ahead of the drone. Forward speed rises over 
 Published at:
 
 `https://wzzzodiac.github.io/drone-simulator/`
+
+## Hangar visual review
+
+The review branch adds an industrial hangar, procedural quadcopter and metal gates, a compact mobile-first flight deck, render-quality controls and on-demand rendering while idle. Courses, steering and scoring are preserved. See [validation and limits](docs/hangar-review.md) and the [before/after gallery](docs/hangar/index.html).
+
+Serve locally with python -m http.server 8002 --bind 127.0.0.1, then open http://127.0.0.1:8002/.

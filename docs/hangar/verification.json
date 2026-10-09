@@ -1,0 +1,173 @@
+{
+  "checks": [
+    "desktop: controls in first viewport",
+    "desktop: no horizontal overflow",
+    "desktop: standby does not continuously render",
+    "desktop/training: profile announced",
+    "desktop/training: flight advances and overlay becomes inert",
+    "desktop/training: pause freezes simulation and GPU submissions",
+    "desktop/training: overlay resumes",
+    "desktop/training: reset restores course",
+    "desktop/attack: profile announced",
+    "desktop/attack: flight advances and overlay becomes inert",
+    "desktop/attack: pause freezes simulation and GPU submissions",
+    "desktop/attack: overlay resumes",
+    "desktop/attack: reset restores course",
+    "desktop/endless: profile announced",
+    "desktop/endless: flight advances and overlay becomes inert",
+    "desktop/endless: pause freezes simulation and GPU submissions",
+    "desktop/endless: overlay resumes",
+    "desktop/endless: reset restores course",
+    "desktop: pointer maps correctly",
+    "desktop: audio off announced",
+    "desktop: low pixel ratio",
+    "desktop: high pixel ratio",
+    "desktop: auto pixel ratio",
+    "desktop: resize 360x800",
+    "desktop: resize 768x1024",
+    "desktop: resize 844x390",
+    "desktop: resize 1920x1080",
+    "mobile: controls in first viewport",
+    "mobile: no horizontal overflow",
+    "mobile: standby does not continuously render",
+    "mobile/training: profile announced",
+    "mobile/training: flight advances and overlay becomes inert",
+    "mobile/training: pause freezes simulation and GPU submissions",
+    "mobile/training: overlay resumes",
+    "mobile/training: reset restores course",
+    "mobile/attack: profile announced",
+    "mobile/attack: flight advances and overlay becomes inert",
+    "mobile/attack: pause freezes simulation and GPU submissions",
+    "mobile/attack: overlay resumes",
+    "mobile/attack: reset restores course",
+    "mobile/endless: profile announced",
+    "mobile/endless: flight advances and overlay becomes inert",
+    "mobile/endless: pause freezes simulation and GPU submissions",
+    "mobile/endless: overlay resumes",
+    "mobile/endless: reset restores course",
+    "mobile: pointer maps correctly",
+    "mobile: audio off announced",
+    "mobile: low pixel ratio",
+    "mobile: high pixel ratio",
+    "mobile: auto pixel ratio",
+    "mobile: resize 360x800",
+    "mobile: resize 768x1024",
+    "mobile: resize 844x390",
+    "mobile: resize 1920x1080",
+    "training: ring frame collision and failure status",
+    "attack: ring frame collision and failure status",
+    "endless: ring frame collision and failure status",
+    "missed checkpoint consumes one strike and advances",
+    "12-gate course completion and best stored",
+    "finished course retry starts fresh",
+    "changing profile during flight resets state",
+    "hidden document stops simulation and rendering",
+    "hidden document pauses flight",
+    "visible again remains paused until explicit resume",
+    "30 resets keep GPU geometry/texture counts stable",
+    "Endless retires passed gates from rendered world",
+    "training: deterministic gameplay matches original",
+    "attack: deterministic gameplay matches original",
+    "endless: deterministic gameplay matches original",
+    "paused overlay receives keyboard focus",
+    "Enter resumes from pause overlay",
+    "lost graphics context offers reload and disables flight controls",
+    "WebGL failure provides readable unavailable state",
+    "no unexpected console or page errors",
+    "all resources loaded"
+  ],
+  "performance": [
+    {
+      "viewport": "desktop",
+      "mode": "training",
+      "fps": 119.58950591740445,
+      "p95": 8.5,
+      "calls": 342,
+      "triangles": 28180,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 SUPER (0x00002783) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "viewport": "desktop",
+      "mode": "attack",
+      "fps": 119.99500020832467,
+      "p95": 8.5,
+      "calls": 338,
+      "triangles": 26108,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 SUPER (0x00002783) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "viewport": "desktop",
+      "mode": "endless",
+      "fps": 119.9950002083247,
+      "p95": 8.5,
+      "calls": 309,
+      "triangles": 21712,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 SUPER (0x00002783) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "viewport": "mobile-emulation",
+      "mode": "training",
+      "fps": 119.5895059174045,
+      "p95": 8.5,
+      "calls": 342,
+      "triangles": 28180,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 SUPER (0x00002783) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "viewport": "mobile-emulation",
+      "mode": "attack",
+      "fps": 120.00000000000001,
+      "p95": 8.5,
+      "calls": 337,
+      "triangles": 26096,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 SUPER (0x00002783) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    },
+    {
+      "viewport": "mobile-emulation",
+      "mode": "endless",
+      "fps": 119.9900008332639,
+      "p95": 8.400000000000546,
+      "calls": 309,
+      "triangles": 21712,
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 4070 SUPER (0x00002783) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+    }
+  ],
+  "errors": [],
+  "resources": [],
+  "parity": [
+    {
+      "mode": "training",
+      "steps": 1379,
+      "rings": 12,
+      "elapsed": 13.78999999999975
+    },
+    {
+      "mode": "attack",
+      "steps": 1088,
+      "rings": 12,
+      "elapsed": 10.879999999999812
+    },
+    {
+      "mode": "endless",
+      "steps": 3000,
+      "rings": 20,
+      "elapsed": 30.00000000000189
+    }
+  ],
+  "browser": "154.0.4258.62",
+  "resetMemory": {
+    "before": {
+      "geometries": 242,
+      "textures": 3
+    },
+    "after": {
+      "geometries": 242,
+      "textures": 3
+    }
+  },
+  "endless": {
+    "rings": 8,
+    "history": 108,
+    "geometries": 241
+  }
+}
